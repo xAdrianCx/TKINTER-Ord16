@@ -15,7 +15,7 @@ file_save_to = ""
 # Set a default month.
 month = ""
 # Get database path.
-database = os.path.abspath("database\\all_suppliers.json")
+database = os.path.join(cwd, "database\\all_suppliers.json")
 with open(database) as file:
     data = json.load(file)
 # Define a list with all the cells that have to be bordered.
@@ -331,6 +331,10 @@ def add_new_supplier():
     if key_entry.get().upper() in data.keys():
         messagebox.showwarning("Warning!", f"Network User Code: {key_entry.get().upper()} already exists. Cannot be added.")
         new_root.destroy()
+    if key_entry.get() == "" or value_entry.get() == "":
+        messagebox.showwarning("Warning!",
+                               f"You forgot to type a key or a value. You have to fill in both fields.")
+        new_root.destroy()
     else:
         with open(database, 'w') as file:
             data[key_entry.get().upper()] = value_entry.get().upper()
@@ -441,7 +445,6 @@ new_sup_button = Button(root, text="Add new supplier", command=new_supplier).gri
 # Add a delete supplier button.
 delete_supplier = Button(root, text="Delete Supplier", command=delete_supplier).grid(row=6, column=1, sticky=W, pady=2)
 
-pprint(data)
 root.mainloop()
 
 
