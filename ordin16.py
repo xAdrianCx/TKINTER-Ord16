@@ -8,11 +8,11 @@ import json
 
 # Get current directory.
 cwd = os.getcwd()
-# Set a default filepath.
+# Create a filepath variable.
 filepath = ""
-# Set a default path where to save the generated files.
+# Create a file_save_to variable.
 file_save_to = ""
-# Set a default month.
+# Create a month variable.
 month = ""
 # Get database path.
 database = os.path.join(cwd, "database\\all_suppliers.json")
@@ -108,7 +108,9 @@ def generate_files():
     Creates a new excel file with a sheetname as the supplier NU(Newtork User) code containing all the data required
     for monthly reporting.
     """
+    # If the user has chosen a month we can go further.
     if month:
+        # Then the user needs to choose the import filepath.
         if filepath:
             path = str(filepath).split("'")[1]
             wb = load_workbook(path)
@@ -122,7 +124,8 @@ def generate_files():
                         suppliers[cell.value] = {"Cantitatea Facturata(MWh)": ws.cell(row=i, column=3).value,
                                                  "Cantitate GMOIS(al fin)": ws.cell(row=i, column=4).value}
                 except Exception as e:
-                    pass
+                    messagebox.showwarning("Warning!", f"The folowing error has occured: {e}")
+            # Make the user select a directory where to save the generated files.
             if file_save_to == "":
                 messagebox.showwarning("Warning!",
                                        "Use the 'Save files to...' button to select where to save the files.")
@@ -275,20 +278,29 @@ def generate_files():
                 after_dir = len(os.listdir(file_save_to))
                 if after_dir - before_dir == 0:
                     messagebox.showinfo("Information!", "No files were created.")
+                # Show a message that informs the user how many files have been created.
                 else:
                     messagebox.showinfo("Information!", f"Succesfully created {after_dir - before_dir} files.")
+        # If no filepath to import a file from has been give, return a message.
         else:
             messagebox.showwarning("Warning!", "You have to upload a file to convert.")
+    # If there hasn't been selected a month, return a message.
     else:
         messagebox.showwarning("Warning!", "You have to select the month.")
     pprint(data)
 
 
 def new_supplier():
+    """
+    A function that gives the user the ability to enter a new supplier into the database in case it doesn't exist.
+    It opens a new window with needed entry boxes for adding the new supplier.
+    """
+
     global key_entry
     global value_entry
     global new_root
 
+    # Create a new window.
     new_root = Tk()
     # Set the minimum size
     new_root.minsize(width=400, height=300)
@@ -327,14 +339,16 @@ def add_new_supplier():
     A function that adds new supplier to database(json file).
     If the Network User COde already exists it returns an error.
     """
-
+    # Check if the entered key is already in the database. If it is, show a message and close the window.
     if key_entry.get().upper() in data.keys():
         messagebox.showwarning("Warning!", f"Network User Code: {key_entry.get().upper()} already exists. Cannot be added.")
         new_root.destroy()
+    # If no values are added to key or to value entry box, return an error message and close the window.
     if key_entry.get() == "" or value_entry.get() == "":
         messagebox.showwarning("Warning!",
                                f"You forgot to type a key or a value. You have to fill in both fields.")
         new_root.destroy()
+    #
     else:
         with open(database, 'w') as file:
             data[key_entry.get().upper()] = value_entry.get().upper()
@@ -348,18 +362,20 @@ def add_new_supplier():
 
 def delete_supplier():
     """
-    A function that deletes a Network User from the database.
+    A function that creates a new window where user can add the data needed to delete a supplier.
+
     """
     global key_entry_delete
     global new_root_delete
 
+    # Create a new window.
     new_root_delete = Tk()
     # Set the minimum size
     new_root_delete.minsize(width=400, height=300)
     # Set the actual size.
     new_root_delete.geometry("400x300")
     # Set the title.
-    new_root_delete.title("Add new supplier...")
+    new_root_delete.title("Delete Supplier...")
     # Set an icon
     new_root_delete.iconbitmap('images\\GazVest.ico')
     # Set up the grid.
@@ -401,14 +417,16 @@ def delete_sup():
 
 # Create a tkinter main window.
 root = Tk()
-# Set the minimum size
+# Set window minimum size
 root.minsize(width=300, height=300)
+# Set window max size
+root.maxsize(width=300, height=300)
 # Set the actual size.
 root.geometry("300x300")
 # Set the title.
 root.title("Ordin 16")
 # Set an icon
-root.iconbitmap('images/GazVest.ico')
+root.iconbitmap('images\\GazVest.ico')
 # Options for month picking.
 options = [
     "Ianuarie",
@@ -439,11 +457,11 @@ import_btn = Button(root, text="Import file", command=open_file).grid(row=2, col
 # Creat a button that asks the user where to save the files.
 export_button = Button(root, text="Save files to...", command=save_to).grid(row=3, column=0, pady=10)
 # Create a button that actually generates the needed files.
-generate_button = Button(root, text="Generate files", command=generate_files).grid(row=4, column=0, pady=10)
+generate_button = Button(root, text="Generate files", bg="green", command=generate_files).grid(row=4, column=0, pady=10)
 # Add new supplier to all_suppliers.
-new_sup_button = Button(root, text="Add new supplier", command=new_supplier).grid(row=6, column=0, sticky=W, pady=2)
+new_sup_button = Button(root, text="Add new supplier", fg="white", bg="blue", command=new_supplier).grid(row=6, column=0, sticky=W, pady=2)
 # Add a delete supplier button.
-delete_supplier = Button(root, text="Delete Supplier", command=delete_supplier).grid(row=6, column=1, sticky=W, pady=2)
+delete_supplier = Button(root, text="Delete Supplier", fg="white", bg="red", command=delete_supplier).grid(row=6, column=1, sticky=W, pady=2)
 
 root.mainloop()
 
