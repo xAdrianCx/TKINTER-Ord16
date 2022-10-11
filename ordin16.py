@@ -400,7 +400,7 @@ def delete_sup():
         A function that deletes a supplier from database(json file).
         If the Network User Code doesn't exist it returns an error.
         """
-
+    # If entered key is found in the database, delete it and close the window.
     if key_entry_delete.get().upper() in data.keys():
         with open(database, 'w') as file:
             messagebox.showinfo("Information!",
@@ -409,20 +409,79 @@ def delete_sup():
             del data[key_entry_delete.get().upper()]
             json.dump(data, file)
             new_root_delete.destroy()
+    # If eneterd key isn't in our database, return an error and close the window.
     else:
         messagebox.showwarning("Warning!",
                                f"Network User Code: {key_entry_delete.get().upper()} doesn't exist. Cannot be deleted.")
         new_root_delete.destroy()
 
 
+def show_all_suppliers():
+    """
+    A function that show all records in the database.
+    """
+    # Create a new window.
+    show_suppliers_window = Tk()
+    # Create a treeview color.
+    style = ttk.Style()
+    style.theme_use("default")
+    style.configure("Treeview",
+                    background="#D3D3D3",
+                    foreground="black",
+                    fieldbackground="#D3D3D3")
+    style.map("Treeview",
+              background=[("selected", "#D347083")])
+
+    # Create a treevie frame.
+    tree_frame = Frame(show_suppliers_window)
+    tree_frame.pack(fill="x", padx=20, pady=20)
+
+    # Create a treeview Scrollbar
+    tree_scroll = Scrollbar(tree_frame)
+    tree_frame.pack(side=RIGHT, fill="y")
+
+    # Create the columns.
+    columns = ["1", "2"]
+
+    # Create the treeview and pack it on the screen.
+    treeview = ttk.Treeview(tree_frame, yscrollcommand=tree_scroll.set, selectmode="extended")
+    treeview.pack(fill="x")
+
+    # Configure the scrollbar.
+    tree_scroll.config(command=treeview.yview)
+
+    # Create striped row tags.
+    treeview.tag_configure("evenrow", background="white")
+    treeview.tag_configure("oddrow", background="lightblue")
+
+    # Create the columns.
+    columns = ["Network User CODE", "Network Supplier Name"]
+    treeview.column("#0", width=0, stretch=NO)
+    for i in range(0, len(columns)):
+        treeview.column(i, anchor=W, width=140)
+
+    # Create the headings.
+    treeview.heading("#0", text="", anchor=W)
+    for i in range(0, len(columns)):
+        treeview.heading(i, text=str(columns[i]), anchor=W)
+
+    # Set a counter.
+    for key, value in data.items():
+        treeview.insert(parent="", index="end", text="", values=(key, value))
+
+
+
+
+
+
 # Create a tkinter main window.
 root = Tk()
 # Set window minimum size
-root.minsize(width=300, height=300)
+root.minsize(width=400, height=400)
 # Set window max size
-root.maxsize(width=300, height=300)
+# root.maxsize(width=250, height=250)
 # Set the actual size.
-root.geometry("300x300")
+root.geometry("250x250")
 # Set the title.
 root.title("Ordin 16")
 # Set an icon
@@ -443,25 +502,34 @@ options = [
     "Decembrie"
 ]
 # Configure a grid.
-root.grid_rowconfigure(6, weight=1)
-root.grid_columnconfigure(0, weight=1)
+root.grid_rowconfigure(7, weight=1)
+root.grid_columnconfigure(3, weight=1)
+
+# Create a frame.
+data_frame = LabelFrame(root, text="Import, Export, Generate")
+data_frame.pack(fill="x", padx=2, pady=10)
+
+database_frame = LabelFrame(root, text="Database Actions")
+database_frame.pack(fill="x", padx=2, pady=10)
 
 # Set a "Select the month" label for the user.
-label = Label(root, text="Select the month").grid(row=0, column=0, pady=10)
+label = Label(data_frame, text="Select the month").grid(row=0, column=1, pady=10)
 # Create a combobox with all months of an year.
-combo = ttk.Combobox(root, state="readonly", values=options)
+combo = ttk.Combobox(data_frame, state="readonly", values=options)
 combo.bind("<<ComboboxSelected>>", month_selected)
-combo.grid(row=1, column=0, pady=2)
+combo.grid(row=1, column=1, pady=2)
 # Create a "Upload file" button to give to user the option to import a file.
-import_btn = Button(root, text="Import file", command=open_file).grid(row=2, column=0, pady=10)
+import_btn = Button(data_frame, text="Import file", command=open_file).grid(row=2, column=0, sticky=W, padx=10, pady=10)
 # Creat a button that asks the user where to save the files.
-export_button = Button(root, text="Save files to...", command=save_to).grid(row=3, column=0, pady=10)
+export_button = Button(data_frame, text="Save files to...", command=save_to).grid(row=2, column=2, sticky=E, padx=10, pady=10)
 # Create a button that actually generates the needed files.
-generate_button = Button(root, text="Generate files", bg="green", command=generate_files).grid(row=4, column=0, pady=10)
+generate_button = Button(data_frame, text="Generate files", bg="green", command=generate_files).grid(row=3, column=1, pady=10)
 # Add new supplier to all_suppliers.
-new_sup_button = Button(root, text="Add new supplier", fg="white", bg="blue", command=new_supplier).grid(row=6, column=0, sticky=W, pady=2)
+new_sup_button = Button(database_frame, text="Add new supplier", fg="white", bg="blue", command=new_supplier).grid(row=4, column=0, sticky=W, pady=50)
 # Add a delete supplier button.
-delete_supplier = Button(root, text="Delete Supplier", fg="white", bg="red", command=delete_supplier).grid(row=6, column=1, sticky=W, pady=2)
+delete_supplier = Button(database_frame, text="Delete Supplier", fg="white", bg="red", command=delete_supplier).grid(row=4, column=2, sticky=E, pady=2)
+# Add a show all suppliers button.
+show_suppliers = Button(database_frame, text="Show All Suppliers", bg="yellow", command=show_all_suppliers).grid(row=5, column=1, pady=2)
 
 root.mainloop()
 
