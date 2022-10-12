@@ -113,6 +113,7 @@ def generate_files():
         # Then the user needs to choose the import filepath.
         if filepath:
             path = str(filepath).split("'")[1]
+            print(path)
             wb = load_workbook(path)
             wb.active = wb["Sheet1"]
             ws = wb.active
@@ -120,9 +121,12 @@ def generate_files():
             for i in range(3, ws.max_row):
                 cell = ws.cell(row=i, column=2)
                 try:
-                    if cell.value == cell.value.upper() and len(cell.value) == 6:
+                    if cell.value is None:
+                        continue
+                    elif cell.value == cell.value.upper() and len(cell.value) == 6:
                         suppliers[cell.value] = {"Cantitatea Facturata(MWh)": ws.cell(row=i, column=3).value,
                                                  "Cantitate GMOIS(al fin)": ws.cell(row=i, column=4).value}
+
                 except Exception as e:
                     messagebox.showwarning("Warning!", f"The folowing error has occured: {e}")
             # Make the user select a directory where to save the generated files.
@@ -137,7 +141,7 @@ def generate_files():
                 # Loop through the final_suppliers and suppliers to find the
                 for key, value in suppliers.items():
                     # Write to a new excel file.
-                    wb = xlsxwriter.Workbook(f"{key}-{month}.xlsx")
+                    wb = xlsxwriter.Workbook(f"{key} - {month}.xlsx")
                     # Add a sheet named by supplier's name
                     ws = wb.add_worksheet(key)
                     # Set the format.
@@ -271,9 +275,11 @@ def generate_files():
                         wb.close()
                     except KeyError as e:
                         messagebox.showwarning("Warning!",
-                                               f"We encountered a problem when creating file for supplier: {e}")
+                                               f"We encountered a problem when creating file for supplier: {e}! "
+                                               f"Maybe it's not in our database. Try adding it to the database and try again.")
                     except Exception as e:
                         messagebox.showwarning("Warning!", f"The following exception has occured: {e}")
+                pprint(suppliers)
                 # Get the number of files created after generating.
                 after_dir = len(os.listdir(file_save_to))
                 if after_dir - before_dir == 0:
@@ -287,7 +293,7 @@ def generate_files():
     # If there hasn't been selected a month, return a message.
     else:
         messagebox.showwarning("Warning!", "You have to select the month.")
-    pprint(data)
+
 
 
 def new_supplier():
@@ -418,28 +424,28 @@ def delete_sup():
 
 def show_all_suppliers():
     """
-    A function that show all records in the database.
+    A function to show all records in the database.
     """
     # Create a new window.
     show_suppliers_window = Tk()
     show_suppliers_window.title("Show All Suppliers")
-    show_suppliers_window.minsize(width=600, height=800)
+    show_suppliers_window.minsize(width=300, height=400)
 
     # Create a label as a title for the treeview.
     label = Label(show_suppliers_window, text="ALL SUPPLIERS")
     label.pack(pady=20)
 
-    # Create a treeviev frame.
-    tree_frame = Frame(show_suppliers_window)
-    tree_frame.pack(fill=BOTH, padx=20, pady=20)
+    # # Create a treeviev frame.
+    # tree_frame = Frame(show_suppliers_window)
+    # tree_frame.pack(fill=BOTH, padx=20, pady=20, anchor=N, expand=TRUE)
 
     # Create a scrollbar.
-    sb = ttk.Scrollbar(tree_frame)
+    sb = ttk.Scrollbar(show_suppliers_window)
     sb.pack(side=RIGHT, fill=Y)
 
     # Create the treeview and pack it on the screen.
-    treeview = ttk.Treeview(tree_frame, yscrollcommand=sb.set, selectmode="extended")
-    treeview.pack(fill="x")
+    treeview = ttk.Treeview(show_suppliers_window, yscrollcommand=sb.set, selectmode="extended")
+    treeview.pack(fill=BOTH, expand=TRUE, side="top", pady=20)
 
     # Configure the scrollbar to move vertically.
     sb.configure(orient=VERTICAL, command=treeview.yview)
@@ -460,8 +466,9 @@ def show_all_suppliers():
         treeview.heading(columns[i], text=columns[i])
 
     # Insert data in treview.
+    db_data = dict(sorted(data.items()))
     count = 0
-    for key, value in data.items():
+    for key, value in db_data.items():
         treeview.insert(parent="", index=END, text="", values=(count+1, key, value))
         count += 1
 

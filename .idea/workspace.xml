@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="02b1ae33-beda-4bda-8948-0618ab63a986" name="Changes" comment="Added a treeview on pressing the &quot;Show All Suppliers&quot; button">
+    <list default="true" id="02b1ae33-beda-4bda-8948-0618ab63a986" name="Changes" comment="Reworked some cosmetics.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/all_suppliers.json" beforeDir="false" afterPath="$PROJECT_DIR$/database/all_suppliers.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ordin16.py" beforeDir="false" afterPath="$PROJECT_DIR$/ordin16.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -58,7 +59,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665597142924</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Reworked some cosmetics.">
+      <created>1665598304895</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1665598304895</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -76,6 +84,7 @@
     <MESSAGE value="Reworked some logic. Added some comments." />
     <MESSAGE value="Added show all suppliers button." />
     <MESSAGE value="Added a treeview on pressing the &quot;Show All Suppliers&quot; button" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added a treeview on pressing the &quot;Show All Suppliers&quot; button" />
+    <MESSAGE value="Reworked some cosmetics." />
+    <option name="LAST_COMMIT_MESSAGE" value="Reworked some cosmetics." />
   </component>
 </project>
