@@ -422,20 +422,16 @@ def show_all_suppliers():
     """
     # Create a new window.
     show_suppliers_window = Tk()
-    show_suppliers_window.minsize(width=400, height=400)
-    # Create a treeview style.
-    style = ttk.Style()
-    style.theme_use("default")
-    style.configure("Treeview",
-                    background="#D3D3D3",
-                    foreground="black",
-                    fieldbackground="#D3D3D3")
-    style.map("Treeview",
-              background=[("selected", "#D347083")])
+    show_suppliers_window.title("Show All Suppliers")
+    show_suppliers_window.minsize(width=600, height=800)
 
-    # Create a treevie frame.
+    # Create a label as a title for the treeview.
+    label = Label(show_suppliers_window, text="ALL SUPPLIERS")
+    label.pack(pady=20)
+
+    # Create a treeviev frame.
     tree_frame = Frame(show_suppliers_window)
-    tree_frame.pack(fill=X, padx=20, pady=20)
+    tree_frame.pack(fill=BOTH, padx=20, pady=20)
 
     # Create a scrollbar.
     sb = ttk.Scrollbar(tree_frame)
@@ -445,23 +441,28 @@ def show_all_suppliers():
     treeview = ttk.Treeview(tree_frame, yscrollcommand=sb.set, selectmode="extended")
     treeview.pack(fill="x")
 
+    # Configure the scrollbar to move vertically.
     sb.configure(orient=VERTICAL, command=treeview.yview)
 
     # Create the columns.
-    columns = ["Network User Code", "Supplier Name"]
+    columns = ["ID", "Network User Code", "Supplier Name"]
     treeview["columns"] = (columns)
     treeview.column("#0", width=0, stretch=NO)
     for i in range(len(columns)):
-        treeview.column(columns[0], anchor=W, width=140)
+        if i == 0:
+            treeview.column(columns[0], anchor="center", width=1)
+        else:
+            treeview.column(columns[0], anchor="center", width=50)
 
     # Create the headings.
+
     for i in range(len(columns)):
         treeview.heading(columns[i], text=columns[i])
 
     # Insert data in treview.
     count = 0
     for key, value in data.items():
-        treeview.insert(parent="", index=END, text="", values=(key, value))
+        treeview.insert(parent="", index=END, text="", values=(count+1, key, value))
         count += 1
 
 
