@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="02b1ae33-beda-4bda-8948-0618ab63a986" name="Changes" comment="Reworked some logic. Added some comments.">
+    <list default="true" id="02b1ae33-beda-4bda-8948-0618ab63a986" name="Changes" comment="Added show all suppliers button.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ordin16.py" beforeDir="false" afterPath="$PROJECT_DIR$/ordin16.py" afterDir="false" />
     </list>
@@ -44,7 +44,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665508947356</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added show all suppliers button.">
+      <created>1665515464020</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1665515464020</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -60,6 +67,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Reworked some logic. Added some comments." />
-    <option name="LAST_COMMIT_MESSAGE" value="Reworked some logic. Added some comments." />
+    <MESSAGE value="Added show all suppliers button." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added show all suppliers button." />
   </component>
 </project>

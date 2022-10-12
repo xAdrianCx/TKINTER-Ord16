@@ -422,7 +422,8 @@ def show_all_suppliers():
     """
     # Create a new window.
     show_suppliers_window = Tk()
-    # Create a treeview color.
+    show_suppliers_window.minsize(width=400, height=400)
+    # Create a treeview style.
     style = ttk.Style()
     style.theme_use("default")
     style.configure("Treeview",
@@ -434,44 +435,34 @@ def show_all_suppliers():
 
     # Create a treevie frame.
     tree_frame = Frame(show_suppliers_window)
-    tree_frame.pack(fill="x", padx=20, pady=20)
+    tree_frame.pack(fill=X, padx=20, pady=20)
 
-    # Create a treeview Scrollbar
-    tree_scroll = Scrollbar(tree_frame)
-    tree_frame.pack(side=RIGHT, fill="y")
-
-    # Create the columns.
-    columns = ["1", "2"]
+    # Create a scrollbar.
+    sb = ttk.Scrollbar(tree_frame)
+    sb.pack(side=RIGHT, fill=Y)
 
     # Create the treeview and pack it on the screen.
-    treeview = ttk.Treeview(tree_frame, yscrollcommand=tree_scroll.set, selectmode="extended")
+    treeview = ttk.Treeview(tree_frame, yscrollcommand=sb.set, selectmode="extended")
     treeview.pack(fill="x")
 
-    # Configure the scrollbar.
-    tree_scroll.config(command=treeview.yview)
-
-    # Create striped row tags.
-    treeview.tag_configure("evenrow", background="white")
-    treeview.tag_configure("oddrow", background="lightblue")
+    sb.configure(orient=VERTICAL, command=treeview.yview)
 
     # Create the columns.
-    columns = ["Network User CODE", "Network Supplier Name"]
+    columns = ["Network User Code", "Supplier Name"]
+    treeview["columns"] = (columns)
     treeview.column("#0", width=0, stretch=NO)
-    for i in range(0, len(columns)):
-        treeview.column(i, anchor=W, width=140)
+    for i in range(len(columns)):
+        treeview.column(columns[0], anchor=W, width=140)
 
     # Create the headings.
-    treeview.heading("#0", text="", anchor=W)
-    for i in range(0, len(columns)):
-        treeview.heading(i, text=str(columns[i]), anchor=W)
+    for i in range(len(columns)):
+        treeview.heading(columns[i], text=columns[i])
 
-    # Set a counter.
+    # Insert data in treview.
+    count = 0
     for key, value in data.items():
-        treeview.insert(parent="", index="end", text="", values=(key, value))
-
-
-
-
+        treeview.insert(parent="", index=END, text="", values=(key, value))
+        count += 1
 
 
 # Create a tkinter main window.
