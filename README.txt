@@ -1,8 +1,8 @@
-A program that copies data from an imported excel file and generates as many files as suppliers. This is used to report some data.
+A program that copies data from an imported excel file and generates as many files as suppliers. This is used to for monthly reports.
 HOW TO USE:
 	1. Select the month.
-	2. Select "Import file" - here we need to import the file with needed data
-	3. Select "Save file to..." - select where you want to save the file.
+	2. Select "Import file" - here we need to import the file with needed data for reporting.
+	3. Select "Save file to..." - select where you want to save the files.
 	4. Press Generate files. - generates the files.
 ADD NEW SUPPLIER TO DATABASE:
 	1. Click onn "Add new supplier".
