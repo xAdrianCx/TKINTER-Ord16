@@ -1,4 +1,4 @@
-A program that copies data from an imported excel file and generates as many files as suppliers. This is used to for monthly reports.
+A program that copies data from an imported excel file and generates as many files as suppliers. This is used on creating monthly reports.
 HOW TO USE:
 	1. Select the month.
 	2. Select "Import file" - here we need to import the file with needed data for reporting.
