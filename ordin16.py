@@ -3,10 +3,9 @@ import xlsxwriter
 from openpyxl import load_workbook
 from tkinter import *
 from tkinter import ttk, filedialog, messagebox
-from pprint import pprint
 import json
 
-# Get current directory.
+# Get current working directory.
 cwd = os.getcwd()
 # Create a filepath variable.
 filepath = ""
@@ -87,8 +86,8 @@ def month_selected(event):
 
 def open_file():
     """
-    A function to return a path
-    :return: file path.
+    A function that asks the user to choose a path.
+    :return: chosen path.
     """
     global filepath
     filepath = filedialog.askopenfile(initialdir=cwd, title="Select a file...", filetypes=[("New Excel", "*.xlsx")])
@@ -104,7 +103,7 @@ def save_to():
 
 def generate_files():
     """
-    A function that generates all files according to supplier
+    A function that generates all files according to supplier.
     Creates a new excel file with a sheetname as the supplier NU(Newtork User) code containing all the data required
     for monthly reporting.
     """
@@ -112,9 +111,11 @@ def generate_files():
     if month:
         # Then the user needs to choose the import filepath.
         if filepath:
+            # Get the name of the file.
             path = str(filepath).split("'")[1]
-            print(path)
+            # Load the file
             wb = load_workbook(path)
+            # Set active worksheet
             wb.active = wb["Sheet1"]
             ws = wb.active
             suppliers = {}
@@ -126,7 +127,6 @@ def generate_files():
                     elif cell.value == cell.value.upper() and len(cell.value) == 6:
                         suppliers[cell.value] = {"Cantitatea Facturata(MWh)": ws.cell(row=i, column=3).value,
                                                  "Cantitate GMOIS(al fin)": ws.cell(row=i, column=4).value}
-
                 except Exception as e:
                     messagebox.showwarning("Warning!", f"The folowing error has occured: {e}")
             # Make the user select a directory where to save the generated files.
@@ -137,7 +137,7 @@ def generate_files():
                 # Change directory according to file_save_to.
                 os.chdir(file_save_to)
                 # Get the number of files in that directory.
-                before_dir = len(os.listdir(file_save_to))
+                files_in_dir_before = len(os.listdir(file_save_to))
                 # Loop through the final_suppliers and suppliers to find the
                 for key, value in suppliers.items():
                     # Write to a new excel file.
@@ -279,20 +279,20 @@ def generate_files():
                                                f"Maybe it's not in our database. Try adding it to the database and try again.")
                     except Exception as e:
                         messagebox.showwarning("Warning!", f"The following exception has occured: {e}")
-                pprint(suppliers)
                 # Get the number of files created after generating.
-                after_dir = len(os.listdir(file_save_to))
-                if after_dir - before_dir == 0:
+                files_in_dir_after = len(os.listdir(file_save_to))
+                if files_in_dir_after - files_in_dir_before == 0:
                     messagebox.showinfo("Information!", "No files were created.")
                 # Show a message that informs the user how many files have been created.
                 else:
-                    messagebox.showinfo("Information!", f"Succesfully created {after_dir - before_dir} files.")
+                    messagebox.showinfo("Information!", f"Succesfully created {files_in_dir_after - files_in_dir_before} files.")
         # If no filepath to import a file from has been give, return a message.
         else:
             messagebox.showwarning("Warning!", "You have to upload a file to convert.")
     # If there hasn't been selected a month, return a message.
     else:
         messagebox.showwarning("Warning!", "You have to select the month.")
+    os.chdir(cwd)
 
 
 
@@ -534,3 +534,5 @@ root.mainloop()
 
 
 
+# Need to change directory after pressing generate and deleting supplier. It doesn't see the icon from
+# root anymore.
