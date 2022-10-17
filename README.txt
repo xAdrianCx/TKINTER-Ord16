@@ -1,5 +1,7 @@
-TKINTER-Ordin16.
-A program that copies data from an imported excel file and generates as many files as suppliers. This is used on creating monthly reports.
+TKINTER-Ord16.
+A program that copies data from an imported excel file and generates as many files as suppliers rows in column B.
+This is used on creating monthly reports.
+
 HOW TO USE:
 	1. Clone the repository on your PC. You can find need libraries on requirements.txt.
 	2. Run the ord16.py.
