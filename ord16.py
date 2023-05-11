@@ -32,57 +32,67 @@ bordered_cells = ["A4", "A5", "A6", "A7", "A8", "A9",
                   "L4", "L5", "L6", "L7", "L8", "L9",
                   "M4", "M5", "M6", "M7", "M8", "M9",
                   "N4", "N5", "N6", "N7", "N8", "N9",
-                  "O4", "O5", "O6", "O7", "O8", "O9",
-                 ]
+                  "O4", "O5", "O6", "O7", "O8", "O9"]
 # Define a dict with all months and their respective cells.
 months_dict = {"Ianuarie":
                    {"Cantitatea Facturata(MWh)": "F7",
-                    "Cantitate GMOIS(al fin)": ["F5", "F6"]},
+                    "Cantitate GMOIS(al fin)": "F5",
+                    "Alocare zilnica":  "F6"},
                 "Februarie":
-                   {"Cantitatea Facturata(MWh)": "G7",
-                    "Cantitate GMOIS(al fin)": ["G5", "G6"]},
+                    {"Cantitatea Facturata(MWh)": "G7",
+                     "Cantitate GMOIS(al fin)": "G5",
+                     "Alocare zilnica": "G6"},
                 "Martie":
                    {"Cantitatea Facturata(MWh)": "H7",
-                    "Cantitate GMOIS(al fin)": ["H5", "H6"]},
+                    "Cantitate GMOIS(al fin)": "H5",
+                    "Alocare zilnica": "H6"},
                 "Aprilie":
                    {"Cantitatea Facturata(MWh)": "I7",
-                    "Cantitate GMOIS(al fin)": ["I5", "I6"]},
+                    "Cantitate GMOIS(al fin)": "I5",
+                    "Alocare zilnica": "I6"},
                 "Mai":
                    {"Cantitatea Facturata(MWh)": "J7",
-                    "Cantitate GMOIS(al fin)": ["J5", "J6"]},
+                    "Cantitate GMOIS(al fin)": "J5",
+                    "Alocare zilnica": "J6"},
                 "Iunie":
                    {"Cantitatea Facturata(MWh)": "K7",
-                    "Cantitate GMOIS(al fin)": ["K5", "K6"]},
+                    "Cantitate GMOIS(al fin)": "K5",
+                    "Alocare zilnica": "K6"},
                 "Iulie":
                    {"Cantitatea Facturata(MWh)": "L7",
-                    "Cantitate GMOIS(al fin)": ["L5", "L6"]},
+                    "Cantitate GMOIS(al fin)": "L5",
+                    "Alocare zilnica": "L6"},
                 "August":
                    {"Cantitatea Facturata(MWh)": "M7",
-                    "Cantitate GMOIS(al fin)": ["M5", "M6"]},
+                    "Cantitate GMOIS(al fin)": "M5",
+                    "Alocare zilnica": "M6"},
                 "Septembrie":
                    {"Cantitatea Facturata(MWh)": "N7",
-                    "Cantitate GMOIS(al fin)": ["N5", "N6"]},
+                     "Cantitate GMOIS(al fin)": "N5",
+                     "Alocare zilnica": "N6"},
                 "Octombrie":
                    {"Cantitatea Facturata(MWh)": "C7",
-                    "Cantitate GMOIS(al fin)": ["C5", "C6"]},
+                    "Cantitate GMOIS(al fin)": "C5",
+                    "Alocare zilnica":  "C6"},
                 "Noiembrie":
                    {"Cantitatea Facturata(MWh)": "D7",
-                    "Cantitate GMOIS(al fin)": ["D5", "D6"]},
+                    "Cantitate GMOIS(al fin)": "D5",
+                    "Alocare zilnica": "D6"},
                 "Decembrie":
                    {"Cantitatea Facturata(MWh)": "E7",
-                    "Cantitate GMOIS(al fin)": ["E5", "E6"]},
-            }
+                    "Cantitate GMOIS(al fin)": "E5",
+                    "Alocare zilnica": "E6"}}
 
 
-def month_selected(event):
+def month_selected():
     """
     A function that takes the information from a combobox.
-    :param event: get()
     :return: chosen month
     """
     global month
     month = combo.get()
     return month
+
 
 def open_file():
     """
@@ -101,10 +111,11 @@ def save_to():
     global file_save_to
     file_save_to = filedialog.askdirectory(initialdir=cwd, title="Save to...")
 
+
 def generate_files():
     """
     A function that generates all files according to supplier.
-    Creates a new excel file with a sheetname as the supplier NU(Newtork User) code containing all the data required
+    Creates a new Excel file with a sheetname as the supplier NU(Newtork User) code containing all the data required
     for monthly reporting.
     """
     # If the user has chosen a month we can go further.
@@ -119,19 +130,27 @@ def generate_files():
             wb.active = wb["Sheet1"]
             ws = wb.active
             suppliers = {}
-            for i in range(3, ws.max_row):
+            for i in range(1, ws.max_row + 1):
                 cell = ws.cell(row=i, column=2)
                 try:
                     if cell.value is None:
                         continue
                     elif cell.value == cell.value.upper() and len(cell.value) == 6:
-                        suppliers[cell.value] = {"Cantitatea Facturata(MWh)": ws.cell(row=i, column=3).value,
-                                                 "Cantitate GMOIS(al fin)": ws.cell(row=i, column=4).value}
+                        if ws.cell(row=i, column=6).value is not None:
+                            suppliers[cell.value] = {"Cantitatea Facturata(MWh)": ws.cell(row=i, column=3).value,
+                                                     "Cantitate GMOIS(al fin)": ws.cell(row=i, column=4).value,
+                                                     "Alocare zilnica": ws.cell(row=i, column=6).value}
+                        else:
+                            suppliers[cell.value] = {"Cantitatea Facturata(MWh)": ws.cell(row=i, column=3).value,
+                                                     "Cantitate GMOIS(al fin)": ws.cell(row=i, column=4).value,
+                                                     "Alocare zilnica": ws.cell(row=i, column=4).value}
                 except Exception as e:
-                    messagebox.showwarning("Warning!", f"The folowing error has occured: {e}")
+                    messagebox.showwarning("Warning!", f"Function: generate_files: "
+                                                       f"The folowing error has occured: {e}")
             # Make the user select a directory where to save the generated files.
             if file_save_to == "":
                 messagebox.showwarning("Warning!",
+                                       "Function: generate_files: "
                                        "Use the 'Save files to...' button to select where to save the files.")
             else:
                 # Change directory according to file_save_to.
@@ -140,7 +159,7 @@ def generate_files():
                 files_in_dir_before = len(os.listdir(file_save_to))
                 # Loop through the final_suppliers and suppliers to find the
                 for key, value in suppliers.items():
-                    # Write to a new excel file.
+                    # Write to a new Excel file.
                     wb = xlsxwriter.Workbook(f"{key} - {month}.xlsx")
                     # Add a sheet named by supplier's name
                     ws = wb.add_worksheet(key)
@@ -247,7 +266,7 @@ def generate_files():
                                 ws.write(x, "=L5-L6", red_bordered_number_format)
                             if x == "M8":
                                 ws.write(x, "=M5-M7", red_bordered_number_format)
-                            if x =="M9":
+                            if x == "M9":
                                 ws.write(x, "=M5-M6", red_bordered_number_format)
                             if x == "N8":
                                 ws.write(x, "=N5-N7", red_bordered_number_format)
@@ -267,16 +286,18 @@ def generate_files():
                         ws.write(str(months_dict[month]["Cantitatea Facturata(MWh)"]),
                                  value["Cantitatea Facturata(MWh)"], bordered_number_format)
                         cant_fact_cell = months_dict[month]["Cantitatea Facturata(MWh)"]
-                        cant_al_fin = months_dict[month]["Cantitate GMOIS(al fin)"][0]
-                        cant_al_fin1 = months_dict[month]["Cantitate GMOIS(al fin)"][1]
+                        cant_al_fin = months_dict[month]["Cantitate GMOIS(al fin)"]
+                        cant_sum_al_fin = months_dict[month]["Alocare zilnica"]
                         ws.write(cant_fact_cell, value["Cantitatea Facturata(MWh)"], bordered_number_format)
                         ws.write(cant_al_fin, value["Cantitate GMOIS(al fin)"], bordered_number_format)
-                        ws.write(cant_al_fin1, value["Cantitate GMOIS(al fin)"], bordered_number_format)
+                        ws.write(cant_sum_al_fin, value["Alocare zilnica"], bordered_number_format)
                         wb.close()
                     except KeyError as e:
                         messagebox.showwarning("Warning!",
+                                               f"Function: generate_files:"
                                                f"We encountered a problem when creating file for supplier: {e}! "
-                                               f"Maybe it's not in our database. Try adding it to the database and try again.")
+                                               f"Maybe it's not in our database. "
+                                               f"Try adding it to the database and then try again.")
                     except Exception as e:
                         messagebox.showwarning("Warning!", f"The following exception has occured: {e}")
                 # Get the number of files created after generating.
@@ -285,15 +306,15 @@ def generate_files():
                     messagebox.showinfo("Information!", "No files were created.")
                 # Show a message that informs the user how many files have been created.
                 else:
-                    messagebox.showinfo("Information!", f"Succesfully created {files_in_dir_after - files_in_dir_before} files.")
+                    messagebox.showinfo("Information!", f"Succesfully created "
+                                                        f"{files_in_dir_after - files_in_dir_before} files.")
         # If no filepath to import a file from has been give, return a message.
         else:
-            messagebox.showwarning("Warning!", "You have to upload a file to convert.")
+            messagebox.showwarning("Warning!", "Function: generate_files: You have to upload a file to convert.")
     # If there hasn't been selected a month, return a message.
     else:
-        messagebox.showwarning("Warning!", "You have to select the month.")
+        messagebox.showwarning("Warning!", "Function: generate_files: You have to select the month.")
     os.chdir(cwd)
-
 
 
 def new_supplier():
@@ -339,7 +360,6 @@ def new_supplier():
     add_new_supl_button.grid(row=6, column=0, pady=10)
 
 
-
 def add_new_supplier():
     """
     A function that adds new supplier to database(json file).
@@ -347,7 +367,8 @@ def add_new_supplier():
     """
     # Check if the entered key is already in the database. If it is, show a message and close the window.
     if key_entry.get().upper() in data.keys():
-        messagebox.showwarning("Warning!", f"Network User Code: {key_entry.get().upper()} already exists. Cannot be added.")
+        messagebox.showwarning("Warning!", f"Network User Code: {key_entry.get().upper()} "
+                                           f"already exists. Cannot be added.")
         new_root.destroy()
     # If no values are added to key or to value entry box, return an error message and close the window.
     if key_entry.get() == "" or value_entry.get() == "":
@@ -360,10 +381,10 @@ def add_new_supplier():
             data[key_entry.get().upper()] = value_entry.get().upper()
             json.dump(data, file)
             messagebox.showinfo("Information!",
-                                   f"Network User Code: {key_entry.get().upper()} with supplier name: {value_entry.get().upper()}"
+                                   f"Network User Code: {key_entry.get().upper()} with supplier name: "
+                                   f"{value_entry.get().upper()}"
                                    f" has been added to the database successfully!")
         new_root.destroy()
-
 
 
 def delete_supplier():
@@ -410,7 +431,8 @@ def delete_sup():
     if key_entry_delete.get().upper() in data.keys():
         with open(database, 'w') as file:
             messagebox.showinfo("Information!",
-                                f"Network User Code: {key_entry_delete.get().upper()} with supplier name: {data[key_entry_delete.get().upper()]}"
+                                f"Network User Code: {key_entry_delete.get().upper()} with supplier name: "
+                                f"{data[key_entry_delete.get().upper()]}"
                                 f" has been deleted from the database successfully!")
             del data[key_entry_delete.get().upper()]
             json.dump(data, file)
@@ -520,18 +542,22 @@ combo.grid(row=1, column=1, pady=2)
 # Create a "Upload file" button to give to user the option to import a file.
 import_btn = Button(data_frame, text="Import file", command=open_file).grid(row=2, column=0, sticky=W, padx=10, pady=10)
 # Creat a button that asks the user where to save the files.
-export_button = Button(data_frame, text="Save files to...", command=save_to).grid(row=2, column=2, sticky=E, padx=10, pady=10)
+export_button = Button(data_frame, text="Save files to...",
+                       command=save_to).grid(row=2, column=2, sticky=E, padx=10, pady=10)
 # Create a button that actually generates the needed files.
-generate_button = Button(data_frame, text="Generate files", bg="green", command=generate_files).grid(row=3, column=1, pady=10)
+generate_button = Button(data_frame, text="Generate files", bg="green",
+                         command=generate_files).grid(row=3, column=1, pady=10)
 # Add new supplier to all_suppliers.
-new_sup_button = Button(database_frame, text="Add new supplier", fg="white", bg="blue", command=new_supplier).grid(row=4, column=0, sticky=W, pady=50)
+new_sup_button = Button(database_frame, text="Add new supplier", fg="white", bg="blue",
+                        command=new_supplier).grid(row=4, column=0, sticky=W, pady=50)
 # Add a delete supplier button.
-delete_supplier = Button(database_frame, text="Delete Supplier", fg="white", bg="red", command=delete_supplier).grid(row=4, column=2, sticky=E, pady=2)
+delete_supplier = Button(database_frame, text="Delete Supplier", fg="white", bg="red",
+                         command=delete_supplier).grid(row=4, column=2, sticky=E, pady=2)
 # Add a show all suppliers button.
-show_suppliers = Button(database_frame, text="Show All Suppliers", bg="yellow", command=show_all_suppliers).grid(row=5, column=1, pady=2)
+show_suppliers = Button(database_frame, text="Show All Suppliers", bg="yellow",
+                        command=show_all_suppliers).grid(row=5, column=1, pady=2)
 
 root.mainloop()
-
 
 
 # Need to change directory after pressing generate and deleting supplier. It doesn't see the icon from
