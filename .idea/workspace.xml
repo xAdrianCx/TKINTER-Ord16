@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="02b1ae33-beda-4bda-8948-0618ab63a986" name="Changes" comment="Created requirements.txt">
-      <change beforePath="$PROJECT_DIR$/.idea/ORDIN16.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ORDIN16.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="02b1ae33-beda-4bda-8948-0618ab63a986" name="Changes" comment="Reworked ord16.py run_process function. App works as intended.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database/all_suppliers.json" beforeDir="false" afterPath="$PROJECT_DIR$/database/all_suppliers.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ord16.py" beforeDir="false" afterPath="$PROJECT_DIR$/ord16.py" afterDir="false" />
@@ -123,7 +121,21 @@
       <option name="project" value="LOCAL" />
       <updated>1665833510334</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Reworkedord16.py run_process function. App works as intended.">
+      <created>1683897622798</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1683897622798</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Reworked ord16.py run_process function. App works as intended.">
+      <created>1684223695504</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1684223695504</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -145,6 +157,8 @@
     <MESSAGE value="Reworked exception handling." />
     <MESSAGE value="Made it change cwd after generating the files." />
     <MESSAGE value="Created requirements.txt" />
-    <option name="LAST_COMMIT_MESSAGE" value="Created requirements.txt" />
+    <MESSAGE value="Reworkedord16.py run_process function. App works as intended." />
+    <MESSAGE value="Reworked ord16.py run_process function. App works as intended." />
+    <option name="LAST_COMMIT_MESSAGE" value="Reworked ord16.py run_process function. App works as intended." />
   </component>
 </project>
