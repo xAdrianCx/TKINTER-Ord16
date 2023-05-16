@@ -3,10 +3,10 @@ A program that copies data from an imported excel file and generates as many fil
 This is used on creating monthly reports.
 
 HOW TO USE:
-	1. Clone the repository on your PC. You can find need libraries on requirements.txt.
+	1. Clone the repository on your PC. You can find needed libraries on requirements.txt.
 	2. Run the ord16.py.
 	3. Select the month.
-	4. Select "Import file" - here we need to import the file with needed data for reporting.
+	4. Select "Import file" - here we need to import the file with needed data for reporting(database).
 	5. Select "Save file to..." - select where you want to save the files.
 	6. Press Generate files. - generates the files.
 ADD NEW SUPPLIER TO DATABASE:
